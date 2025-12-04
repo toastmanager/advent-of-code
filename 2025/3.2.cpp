@@ -53,4 +53,6 @@ int main() {
     }
 
     cout << res;
+
+    File.close();
 }

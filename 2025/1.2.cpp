@@ -1,7 +1,3 @@
-/*
-    This code gives incorrect answers
-*/
-
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -11,7 +7,7 @@ int main() {
     string filePath = "1.txt";
     string input;
     ifstream InputFile(filePath);
-    int step, direction, res = 0, curPos = 50;
+    int move, direction, step, res = 0, curPos = 50;
 
     while (getline(InputFile, input)) {
         if (input[0] == 'L')
@@ -20,25 +16,32 @@ int main() {
             direction = 1;
 
         input[0] = '0';
-        step = stoi(input);
+        move = stoi(input);
 
-        bool isZeroInitially = curPos == 0;
-        bool flag = false;
-        curPos += direction * step;
-        while (curPos < 0) {
-            curPos = 100 + curPos;
-            if (!isZeroInitially || flag) ++res;
-            flag = true;
-        };
-        while (curPos > 99) {
-            curPos = curPos - 100;
-            if (!isZeroInitially || flag) ++res;
-            flag = true;
+        res += int(move / 100);
+        step = direction * (move % 100);
+
+        if (curPos + step < 0) {
+            if (curPos != 0) ++res;
+            curPos += 100 + step;
+        } else if (curPos + step > 99) {
+            curPos += step - 100;
+            ++res;
+        } else if (curPos + step == 0) {
+            curPos += step;
+            ++res;
+        } else {
+            curPos += step;
         }
-        if (curPos == 0 && !flag) ++res;
     }
 
     cout << res;
 
     InputFile.close();
 }
+
+/*
+    0 R1000 -> 0 +10
+    50 R50 -> 0 +1
+    50 L50 -> 0 -1
+*/

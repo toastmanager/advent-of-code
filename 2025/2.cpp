@@ -94,4 +94,5 @@ int main() {
         res += Solution().findInvalidIdsSumInRange(range.first, range.second);
     }
     cout << res;
+    File.close();
 }
